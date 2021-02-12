@@ -32,18 +32,15 @@ namespace appwrite_dotnet_function_example
                 WriteIndented = true
             };
             var client = new Client();
-            client.SetEndPoint("https://appwrite.monitor-api.com/v1");
-            client.SetProject("6024f306a015c");
+            client.SetEndPoint(Environment.GetEnvironmentVariable("ENDPOINT"));
+            client.SetProject(Environment.GetEnvironmentVariable("PROJECT"));
             client.SetKey(Environment.GetEnvironmentVariable("KEY"));
             var database = new Database(client);
             var list = new List<object>() {"*"};
             database.UpdateDocument(document.Id, document.Collection, analytics, list, list);
             try
             {
-                Console.WriteLine(Environment.GetEnvironmentVariable("ENDPOINT"));
-                Console.WriteLine(Environment.GetEnvironmentVariable("PROJECT"));
-                Console.WriteLine(Environment.GetEnvironmentVariable("KEY"));
-                var response = RunTask(database.UpdateDocument(document.Id, document.Collection, analytics, list, list)).GetAwaiter().GetResult();
+                var response = RunTask(database.UpdateDocument(document.Collection, document.Id, analytics, list, list)).GetAwaiter().GetResult();
                 Console.WriteLine(response);
                 Console.WriteLine(JsonSerializer.Serialize(analytics, options));
 
