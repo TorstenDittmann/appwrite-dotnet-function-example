@@ -22,7 +22,11 @@ namespace appwrite_dotnet_function_example
             analytics.Add("SMOGIndex", result.SMOGIndex());
             analytics.Add("ReadingTime", result.ReadingTime());
             analytics.Add("SpeakingTime", result.SpeakingTime());
-            Console.WriteLine(JsonSerializer.Serialize(analytics));
+
+            var options = new JsonSerializerOptions() {
+                WriteIndented = true
+            };
+            Console.WriteLine(JsonSerializer.Serialize(analytics, options));
         }
     }
 
