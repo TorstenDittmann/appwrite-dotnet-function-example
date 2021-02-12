@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using IBM.Cloud.SDK.Core.Authentication.Iam;
-using IBM.Watson.ToneAnalyzer.v3;
-using IBM.Watson.ToneAnalyzer.v3.Model;
-
+using System.Collections.Generic;
 
 namespace appwrite_dotnet_function_example
 {
@@ -12,30 +9,25 @@ namespace appwrite_dotnet_function_example
     {
         static void Main(string[] args)
         {
-            Document document = JsonSerializer.Deserialize<Document>(Environment.GetEnvironmentVariable("APPWRITE_FUNCTION_EVENT_PAYLOAD"));
-            IamAuthenticator authenticator = new IamAuthenticator(Environment.GetEnvironmentVariable("IBM_API_KEY"));
-            ToneAnalyzerService toneAnalyzer = new ToneAnalyzerService("2017-09-21", authenticator);
-            toneAnalyzer.SetServiceUrl(Environment.GetEnvironmentVariable("IBM_API_URL"));
-
-            ToneInput toneInput = new ToneInput()
-            {
-                Text = document.Content
-            };
-
-            var result = toneAnalyzer.Tone(toneInput);
-
-            Console.WriteLine(result.Response);
+            var document = JsonSerializer.Deserialize<Document>(Environment.GetEnvironmentVariable("APPWRITE_FUNCTION_EVENT_PAYLOAD"));
+            var result = TextStatistics.TextStatistics.Parse(document.Content);
+            var analytics = new Dictionary<string, double>();
+            analytics.Add("LetterCount", result.LetterCount);
+            analytics.Add("WordCount", result.WordCount);
+            analytics.Add("SentenceCount", result.SentenceCount);
+            analytics.Add("ColemanLiauIndex", result.ColemanLiauIndex());
+            analytics.Add("FleschKincaidGradeLevel", result.FleschKincaidGradeLevel());
+            analytics.Add("FleschKincaidReadingEase", result.FleschKincaidReadingEase());
+            analytics.Add("GunningFogScore", result.GunningFogScore());
+            analytics.Add("SMOGIndex", result.SMOGIndex());
+            analytics.Add("ReadingTime", result.ReadingTime());
+            analytics.Add("SpeakingTime", result.SpeakingTime());
+            Console.WriteLine(JsonSerializer.Serialize(analytics));
         }
     }
 
     public class Document
     {
-        [JsonPropertyNameAttribute("$id")]
-        public string Id { get; set; }
-
-        [JsonPropertyNameAttribute("$collection")]
-        public string Collection { get; set; }
-
         [JsonPropertyNameAttribute("content")]
         public string Content { get; set; }
 
