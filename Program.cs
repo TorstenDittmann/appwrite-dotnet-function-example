@@ -41,8 +41,7 @@ namespace appwrite_dotnet_function_example
             database.UpdateDocument(document.Id, document.Collection, analytics, list, list);
             try
             {
-                var response = RunTask(database.UpdateDocument(document.Collection, document.Id, analytics, list, list)).GetAwaiter().GetResult();
-                Console.WriteLine(response);
+                RunTask(database.UpdateDocument(document.Collection, document.Id, analytics, list, list)).GetAwaiter().GetResult();
                 Console.WriteLine(JsonSerializer.Serialize(analytics, options));
 
             }
