@@ -12,11 +12,6 @@ namespace appwrite_dotnet_function_example
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0)
-            {
-                Console.WriteLine("Wrong arguments passed!");
-                Environment.Exit(0xA0);
-            }
             Document document = JsonSerializer.Deserialize<Document>(Environment.GetEnvironmentVariable("APPWRITE_FUNCTION_EVENT_PAYLOAD"));
             IamAuthenticator authenticator = new IamAuthenticator(Environment.GetEnvironmentVariable("IBM_API_KEY"));
             ToneAnalyzerService toneAnalyzer = new ToneAnalyzerService("2017-09-21", authenticator);
