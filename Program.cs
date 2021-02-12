@@ -37,7 +37,7 @@ namespace appwrite_dotnet_function_example
             .SetProject(Environment.GetEnvironmentVariable("PROJECT"))
             .SetKey(Environment.GetEnvironmentVariable("KEY"));
             var database = new Database(client);
-            var list = new List<object>();
+            var list = new List<object>() {"*"};
             database.UpdateDocument(document.Id, document.Collection, analytics, list, list);
             try
             {
