@@ -11,7 +11,9 @@ namespace appwrite_dotnet_function_example
         {
             var document = JsonSerializer.Deserialize<Document>(Environment.GetEnvironmentVariable("APPWRITE_FUNCTION_EVENT_PAYLOAD"));
             var result = TextStatistics.TextStatistics.Parse(document.Content);
-            var analytics = new Dictionary<string, double>();
+            var analytics = new Dictionary<string, object>();
+
+            analytics.Add("document", document.Id);
             analytics.Add("LetterCount", result.LetterCount);
             analytics.Add("WordCount", result.WordCount);
             analytics.Add("SentenceCount", result.SentenceCount);
@@ -32,6 +34,8 @@ namespace appwrite_dotnet_function_example
 
     public class Document
     {
+        [JsonPropertyNameAttribute("$id")]
+        public string Id { get; set; }
         [JsonPropertyNameAttribute("content")]
         public string Content { get; set; }
 
