@@ -9,6 +9,8 @@ namespace appwrite_dotnet_function_example
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(Environment.GetEnvironmentVariable("APPWRITE_FUNCTION_EVENT_PAYLOAD"));
+            Environment.Exit(0);
             if (args.Length == 0) 
             {
                 Console.WriteLine("Wrong arguments passed!");
