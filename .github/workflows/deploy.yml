@@ -17,7 +17,6 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-  deploy:
     - name: Setup Appwrite CLI
       uses: appwrite/setup-for-actions@v1
       with:
