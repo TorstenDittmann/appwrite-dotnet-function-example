@@ -32,10 +32,9 @@ namespace appwrite_dotnet_function_example
                 WriteIndented = true
             };
             var client = new Client();
-            client
-            .SetEndPoint(Environment.GetEnvironmentVariable("ENDPOINT"))
-            .SetProject(Environment.GetEnvironmentVariable("PROJECT"))
-            .SetKey(Environment.GetEnvironmentVariable("KEY"));
+            client.SetEndPoint("https://appwrite.monitor-api.com/v1");
+            client.SetProject("6024f306a015c");
+            client.SetKey(Environment.GetEnvironmentVariable("KEY"));
             var database = new Database(client);
             var list = new List<object>() {"*"};
             database.UpdateDocument(document.Id, document.Collection, analytics, list, list);
