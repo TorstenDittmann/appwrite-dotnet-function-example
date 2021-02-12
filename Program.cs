@@ -41,6 +41,7 @@ namespace appwrite_dotnet_function_example
             database.UpdateDocument(document.Id, document.Collection, analytics, list, list);
             try
             {
+                Console.WriteLine(document.Collection);
                 var response = RunTask(database.UpdateDocument(document.Id, document.Collection, analytics, list, list)).GetAwaiter().GetResult();
                 Console.WriteLine(response);
                 Console.WriteLine(JsonSerializer.Serialize(analytics, options));
@@ -63,8 +64,10 @@ namespace appwrite_dotnet_function_example
     {
         [JsonPropertyNameAttribute("$id")]
         public string Id { get; set; }
+
         [JsonPropertyNameAttribute("$collection")]
         public string Collection { get; set; }
+
         [JsonPropertyNameAttribute("content")]
         public string Content { get; set; }
 
