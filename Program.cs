@@ -14,22 +14,23 @@ namespace appwrite_dotnet_function_example
         {
             var document = JsonSerializer.Deserialize<Document>(Environment.GetEnvironmentVariable("APPWRITE_FUNCTION_EVENT_PAYLOAD"));
             var result = TextStatistics.TextStatistics.Parse(document.Content);
-            var analytics = new Dictionary<string, object>();
+            var analytics = new Dictionary<string, string>();
 
-            analytics.Add("letterCount", result.LetterCount);
-            analytics.Add("wordCount", result.WordCount);
-            analytics.Add("sentenceCount", result.SentenceCount);
-            analytics.Add("colemanLiauIndex", result.ColemanLiauIndex());
-            analytics.Add("fleschKincaidGradeLevel", result.FleschKincaidGradeLevel());
-            analytics.Add("fleschKincaidReadingEase", result.FleschKincaidReadingEase());
-            analytics.Add("gunningFogScore", result.GunningFogScore());
-            analytics.Add("smogIndex", result.SMOGIndex());
-            analytics.Add("readingTime", result.ReadingTime());
-            analytics.Add("speakingTime", result.SpeakingTime());
+            analytics.Add("letterCount", result.LetterCount.ToString());
+            analytics.Add("wordCount", result.WordCount.ToString());
+            analytics.Add("sentenceCount", result.SentenceCount.ToString());
+            analytics.Add("colemanLiauIndex", result.ColemanLiauIndex().ToString());
+            analytics.Add("fleschKincaidGradeLevel", result.FleschKincaidGradeLevel().ToString());
+            analytics.Add("fleschKincaidReadingEase", result.FleschKincaidReadingEase().ToString());
+            analytics.Add("gunningFogScore", result.GunningFogScore().ToString());
+            analytics.Add("smogIndex", result.SMOGIndex().ToString());
+            analytics.Add("readingTime", result.ReadingTime().ToString());
+            analytics.Add("speakingTime", result.SpeakingTime().ToString());
 
             var options = new JsonSerializerOptions()
             {
-                WriteIndented = true
+                WriteIndented = true,
+
             };
             var client = new Client();
             client.SetEndPoint(Environment.GetEnvironmentVariable("ENDPOINT"));
