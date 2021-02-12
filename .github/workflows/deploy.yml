@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -18,9 +17,15 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+  deploy:
     - name: Setup Appwrite CLI
       uses: appwrite/setup-for-actions@v1
       with:
         endpoint: 'https://test.monitor-api.com/v1'
         project: '6024f306a015c'
         key: '${{ secrets.APPWRITE_API_KEY }}'
+    - name: Publish Function
+      run: appwrite functions createTag \
+        --functionId="60268125628e3" \
+        --command="dotnet appwrite-dotnet-function-example.dll" \
+        --code="bin/Release/net5.0/" 
