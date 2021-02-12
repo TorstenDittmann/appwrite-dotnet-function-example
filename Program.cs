@@ -41,7 +41,9 @@ namespace appwrite_dotnet_function_example
             database.UpdateDocument(document.Id, document.Collection, analytics, list, list);
             try
             {
+                Console.WriteLine(Environment.GetEnvironmentVariable("ENDPOINT"));
                 Console.WriteLine(Environment.GetEnvironmentVariable("PROJECT"));
+                Console.WriteLine(Environment.GetEnvironmentVariable("KEY"));
                 var response = RunTask(database.UpdateDocument(document.Id, document.Collection, analytics, list, list)).GetAwaiter().GetResult();
                 Console.WriteLine(response);
                 Console.WriteLine(JsonSerializer.Serialize(analytics, options));
