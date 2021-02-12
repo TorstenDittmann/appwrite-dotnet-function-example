@@ -3,6 +3,8 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace appwrite_dotnet_function_example
 {
@@ -29,11 +31,6 @@ namespace appwrite_dotnet_function_example
             {
                 WriteIndented = true
             };
-            update(document.Id, document.Collection, analytics);
-            Console.WriteLine(JsonSerializer.Serialize(analytics, options));
-        }
-        static async void update(string document, string collection, Dictionary<string, object> data)
-        {
             var client = new Client();
             client
             .SetEndPoint(Environment.GetEnvironmentVariable("ENDPOINT"))
@@ -41,7 +38,24 @@ namespace appwrite_dotnet_function_example
             .SetKey(Environment.GetEnvironmentVariable("KEY"));
             var database = new Database(client);
             var list = new List<object>();
-            await database.UpdateDocument(document, collection, data, list, list);
+            database.UpdateDocument(document.Id, document.Collection, analytics, list, list);
+            try
+            {
+                var response = RunTask(database.UpdateDocument(document.Id, document.Collection, analytics, list, list)).GetAwaiter().GetResult();
+                Console.WriteLine(response);
+                Console.WriteLine(JsonSerializer.Serialize(analytics, options));
+
+            }
+            catch (System.Exception e)
+            {
+                Console.WriteLine($"Error: {e}");
+                throw;
+            }
+        }
+        static async Task<string> RunTask(Task<HttpResponseMessage> task) 
+        {
+            HttpResponseMessage response = await task;
+            return await response.Content.ReadAsStringAsync();
         }
     }
 
