@@ -14,8 +14,8 @@ jobs:
     - name: Setup Appwrite CLI
       uses: appwrite/setup-for-actions@v1
       with:
-        endpoint: 'https://test.monitor-api.com/v1'
-        project: '6024f306a015c'
+        endpoint: 'https://appwrite.monitor-api.com/v1'
+        project: '6029281c691b2'
         key: '${{ secrets.APPWRITE_API_KEY }}'
     - name: Install dependencies
       run: dotnet restore
@@ -26,6 +26,6 @@ jobs:
     - name: Deploy
       run: |
         appwrite functions createTag \
-          --functionId="60268125628e3" \
+          --functionId="60292830c4571" \
           --command="dotnet appwrite-dotnet-function-example.dll" \
           --code="bin/Release/net5.0/" 
